@@ -1,5 +1,5 @@
 Welcome to the Octosend documentation project
-=========================================
+============================================
 
 .. _Octosend: https://octosend.com/
 
@@ -64,7 +64,7 @@ before to dive in the integration of our cool features.
   :maxdepth: 2
   :caption: User Guide
 
-  pages/user_guide
+  pages/customer_area_guide
 
 .. important::
   We try to open publicly as much as we can of the product and work hard to release
