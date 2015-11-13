@@ -44,7 +44,7 @@ before to dive in the integration of our cool features.
 
 .. toctree::
   :maxdepth: 2
-  :caption: Getting Started
+  :caption: Overall Presentation
 
   pages/getting_started
 
