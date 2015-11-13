@@ -54,9 +54,9 @@ same logic: point your domain to the octosend DNS services.
   Domain delegation is a best practice for email campaigns. The domain is yours and
   clearly identify where does your campaign come from. Your reputation can grow
   with this domain.
-  The delegation allows us to tell the email service providers (those who provide
-  email address to their users) which IP is authorized to send emails from this
-  domain and manage IP, reputation and signatures for the best.
+  The delegation allows us to tell the mail providers (those who provide email
+  address to their users and use anti-spam tools to protect them) which IP is authorized
+  to send emails from this domain and manage IP, reputation and signatures for the best.
 
 Choose your weapons
 -------------------
