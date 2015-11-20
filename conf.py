@@ -26,7 +26,7 @@ api_url = ''
 rst_epilog = """
 .. _Octosend: https://octosend.com/
 .. |api_current_version| replace:: v3.0
-.. |api_current_url| replace:: https://api.octosend.com/api/v3.0/
+.. |api_current_url| replace:: https://api.octosend.com/api/3.0/
 """
 
 '.. |api_url| replace:: %s' % api_url

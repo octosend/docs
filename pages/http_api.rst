@@ -106,7 +106,7 @@ The JSON body request is:
 where you need to put your own *username* and *password*.
 When you call the *authenticate* method with this body and valid credentials::
 
-  POST https://api.octosend.com/api/v3.0/authenticate
+  POST https://api.octosend.com/api/3.0/authenticate
 
 you will get the following JSON answer:
 
@@ -139,7 +139,7 @@ Count the available domains
 
 ::
 
-  GET https://api.octosend.com/api/v3.0/domains/count
+  GET https://api.octosend.com/api/3.0/domains/count
 
 Retrieve the first ten domains
 """"""""""""""""""""""""""""""
@@ -154,7 +154,7 @@ Body parameters
 
 sent on the *domains/fetch* method::
 
-  POST https://api.octosend.com/api/v3.0/domains/fetch
+  POST https://api.octosend.com/api/3.0/domains/fetch
 
 will return a JSON array with matching *domains* as objects with a *name* property:
 
@@ -183,7 +183,7 @@ the string "demo." in the name of the *domain*. You just have to send:
 
 on::
 
-  POST https://api.octosend.com/api/v3.0/domains/fetch
+  POST https://api.octosend.com/api/3.0/domains/fetch
 
 and you will be good.
 
@@ -218,7 +218,7 @@ Send the content
 
 on the *spoolers/create* method::
 
-  POST https://api.octosend.com/api/v3.0/spoolers/create
+  POST https://api.octosend.com/api/3.0/spoolers/create
 
 This will return the representation of a new empty *spooler*:
 
@@ -252,7 +252,7 @@ Let's add some more information on your spooler. First set the name with:
 
 on::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/name
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/name
 
 .. warning::
   The *name* is an important property to set in your workflow. It will allow you to
@@ -270,7 +270,7 @@ Then a start date with:
 
 on::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/start
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/start
 
 .. note::
   If you provide the current timestamp as *start* date, the activation of the campaign
@@ -293,7 +293,7 @@ The first thing to do is to set the contents that will be parts of the message:
 
 to the *spooler* *resources/part* method::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/resources/part
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/resources/part
 
 and your HTML content is set. The response return a string token that is the internal
 link to the posted content. It will be used later to set the parts to include in the
@@ -312,7 +312,7 @@ Now set the TEXT content:
 
 to the same *resources/part* method::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/resources/part
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/resources/part
 
 and we will call this token::
 
@@ -341,7 +341,7 @@ them in the body of a call:
 
 that you can send on the *spooler* *message* method::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/message
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/message
 
 The spooler is now configured and the content is set. We have to add recipients.
 We create a mail with the recipient's email address and we add this mail to the spooler.
@@ -371,7 +371,7 @@ recipients. This is pretty simple as it only requires to populate the *mails* ar
 
 Just send this body to the right *spool* method::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/spool
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/spool
 
 and your recipients are set.
 
@@ -379,7 +379,7 @@ The last step (yes you are almost done!) is to flag the spooler as ready to be
 send. The Octosend system will trigger the launch of the campaign at the given start
 date::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/ready
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/ready
 
 .. warning::
   After this call the campaign can not be modified anymore.
@@ -400,7 +400,7 @@ Variables appear between double brackets in the contents and can be the followin
 
 All occurs in the *resources/part* method we already seen before::
 
-  POST https://api.octosend.com/api/v3.0/spooler/<current-spooler-token>/resources/part
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/resources/part
 
 with the variables in the content string
 
@@ -502,7 +502,7 @@ Retrieve a campaign
 At the creation, each campaign is assigned an unique identifier. This token identifier
 can be saved on the client side and allows to retrieve the campaign later::
 
-  GET https://api.octosend.com/api/v3.0/spooler/<spooler-token>
+  GET https://api.octosend.com/api/3.0/spooler/<spooler-token>
 
 That will return the classic JSON representation of your campaign:
 
@@ -535,7 +535,7 @@ Body parameters
 
 sent on the *spoolers/fetch* method::
 
-  POST https://api.octosend.com/api/v3.0/spoolers/fetch
+  POST https://api.octosend.com/api/3.0/spoolers/fetch
 
 will return a JSON array with matching *spoolers* as objects with a spoolers properties:
 
@@ -629,7 +629,7 @@ Aggregation can be: *router*, *router+domain*, *router+provider*, *domain*,
 
 For example call::
 
-  POST https://api.octosend.com/api/v3.0/statistics/spooler/<spooler-token>
+  POST https://api.octosend.com/api/3.0/statistics/spooler/<spooler-token>
 
 with
 
