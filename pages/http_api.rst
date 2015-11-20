@@ -149,18 +149,8 @@ Body parameters
 .. code-block:: json
 
   {
-    "limit": 100,
-    "nameContains": "None",
-    "offset": 0,
-    "reverse": false
+    "limit": 10
   }
-
-where:
-
-* *limit*: the number of domains you want to retrieve
-* *nameContains*: a filter on the name of the domains
-* *offset*: skip some domains
-* *reverse*: reverse order of the domains
 
 sent on the *domains/fetch* method::
 
@@ -196,6 +186,14 @@ on::
   POST https://api.octosend.com/api/v3.0/domains/fetch
 
 and you will be good.
+
+As you have seen in the "first ten domains" example, you can send only the parameters you want.
+The available parameters are:
+
+* **nameContains**: a filter on the name of the domains
+* **limit**: the number of domains you want to retrieve
+* **offset**: skip some domains
+* **reverse**: reverse order of the domains
 
 Campaigns
 ---------
@@ -520,6 +518,97 @@ That will return the classic JSON representation of your campaign:
     "token": "unique-identifier",
     "type": "marketing"
   }
+
+Campaigns list
+~~~~~~~~~~~~~~
+
+List the first ten campaigns
+""""""""""""""""""""""""""""
+
+Body parameters
+
+.. code-block:: json
+
+  {
+    "limit": 10
+  }
+
+sent on the *spoolers/fetch* method::
+
+  POST https://api.octosend.com/api/v3.0/spoolers/fetch
+
+will return a JSON array with matching *spoolers* as objects with a spoolers properties:
+
+.. code-block:: json
+
+  [
+    {
+      "domain": "my.domain.tld",
+      "name": "Awesome octopus to send your emails",
+      "tags": [],
+      "archived": 0,
+      "creation": 1440767231,
+      "state": "new",
+      "start": 1440767231,
+      "token": "<current-spooler-token>",
+      "type": "marketing"
+    }
+  ]
+
+Filtering
+"""""""""
+
+The example shows how to retrieve the first ten *new* *marketing* campaigns from the domain *my.domain.tld*
+containing *"promotion"* in their names:
+
+.. code-block:: json
+
+  {
+    "createdAfter": 0,
+    "createdBefore": 0,
+    "domains": [
+      "my.domain.tld"
+    ],
+    "endAfter": 0,
+    "endBefore": 0,
+    "limit": 10,
+    "nameContains": "promotion",
+    "offset": 0,
+    "reverse": false,
+    "startAfter": 0,
+    "startBefore": 0,
+    "states": [
+      "new"
+    ],
+    "types": [
+      "marketing"
+    ]
+  }
+
+While this body provides the full list of parameters for the example, you can off course,
+send only the parameters you want. The available parameters are:
+
+* **Pagination** params
+
+  * **limit**: the number of spoolers you want to retrieve
+  * **offset**: skip some spoolers
+  * **reverse**: reverse order of the spoolers
+
+* **Date** filtering params
+
+  * **createdBefore**: max timestamp boundaries on the creation date
+  * **createdAfter**: min timestamp boundaries on the creation date
+  * **startBefore**: max timestamp boundaries on the start date
+  * **startAfter**: min timestamp boundaries on the start date
+  * **endBefore**: max timestamp boundaries on the end date
+  * **endAfter**: min timestamp boundaries on the end date
+
+* **Spoolers Properties** filtering params
+
+  * **nameContains**: a filter on the name of the spooler
+  * **domains**: an array of exact domains names
+  * **states**: an array of spoolers status. The currently available states are *"new"*, *"pending"*, *"running"*, *"cancelled"*, *"finished"*
+  * **types**: an array of types you search for. The currently available types are *"marketing"* or *"transactional"*
 
 Statistic and results
 ---------------------
