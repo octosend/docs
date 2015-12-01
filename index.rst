@@ -55,8 +55,8 @@ before to dive in the integration of our cool features.
   :maxdepth: 2
   :caption: Developer Documentation
 
-  pages/http_api
-  pages/php_sdk
+  pages/http_api/index.rst
+  pages/php_sdk/index.rst
 
 .. _user-docs:
 
@@ -64,7 +64,7 @@ before to dive in the integration of our cool features.
   :maxdepth: 2
   :caption: User Guide
 
-  pages/customer_area_guide
+  pages/customer_area/index.rst
 
 .. important::
   We try to open publicly as much as we can of the product and work hard to release

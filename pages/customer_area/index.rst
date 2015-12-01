@@ -1,7 +1,7 @@
 Customer Area Guide
 ==================
 
-.. _doc repository: https://github.com/octosend/octosend-docs
+..include:: links.rst
 
 Introduction
 ------------
