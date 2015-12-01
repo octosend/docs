@@ -50,13 +50,74 @@ Resources
 
 The resources exposed by the API are:
 
-* **domain** and **domains**: Octosend allows you to use several sending domains and this resource allows to manage them
-* **spooler** and **spoolers**: the spoolers represents you emailing campaigns, the abstraction in which you add all the informations for a specific campaign
-* **statistics**: a shortcut entry point to access the metrics about your sending activity
-* **events**: for each email (it means for each specific content sent to a given email address), you have access to events of several types such as routing or activity events. They are triggered when our routers, the email address providers or the recipients do some actions on the email.
-* **timeline**: a convenience that provide a timed aggregated representation of your metrics
-* **scoring**: scoring is a resource able to note the elements you send to it
-* **templates**: you can manage templates to recall later to build your contents
+============================ ===================================================
+``domain`` and ``domains``   Octosend allows you to use several sending
+                             domains and this resource allows to manage them
+
+``spooler`` and ``spoolers`` the spoolers represents you emailing campaigns,
+                             the abstraction in which you add all the
+                             informations for a specific campaign
+
+``statistics``               a shortcut entry point to access the metrics about
+                             your sending activity
+
+``events``                   for each email (it means for each specific content
+                             sent to a given email address), you have access to
+                             events of several types such as routing or activity
+                             events. They are triggered when our routers, the
+                             email address providers or the recipients do some
+                             actions on the email.
+
+``timeline``                 a convenience that provide a timed aggregated
+                             representation of your metrics
+
+``scoring``                  scoring is a resource able to note the elements you
+                             send to it
+
+``templates``                you can manage templates to recall later to build
+                             your contents
+============================ ===================================================
+
+Some of those resources are business objects meant to be created (spoolers,
+domains, templates) while others allow to access data about those resources built
+during the routing process (scoring, statistics, timeline, events).
+
+For the business objects the calls available on the collections of resources
+always adhere the following logic:
+
+======================= ========== ================ ============================
+Method                  HTTP verb  Example          Description
+======================= ========== ================ ============================
+``/<resources>/create`` POST       /spoolers/create create a new resource
+                                                    instance
+
+``/<resources>/fetch``  POST       /spoolers/fetch  retrieves an array of resource
+                                                    instances
+
+
+``/<resources>/count``  GET        /spoolers/count  count all the existing instances
+                                                    of the resource
+
+``/<resources>/count``  POST       /spoolers/count  count all the existing instances
+                                                    of the resource matching the
+                                                    given criteria
+
+======================= ========== ================ ============================
+
+Each type of resource has its own methods and specificities so we invite you to
+read the examples below to see how to perform some common operation or to check
+the full `API reference`_ to find what you are looking for.
+
+Nevertheless, if you can not find how to do what you want do not hesitate to tell
+us on hello@octosend.com and we will enrich this documentation with examples to
+perform the task. Finally, you can ask for help on support@octosend.com and our
+support team will do its best to help you.
+
+.. important::
+  Seriously, we really want to improve this documentation and will be more than
+  happy to know your wish and requirements! You will receive a very quick answer
+  and see that words will always be followed by deeds.
+
 
 .. _api-errors:
 
@@ -65,9 +126,18 @@ Errors
 
 The API uses HTTP code for standard errors. The main errors are:
 
-* **400**: Bad request, this code is mainly returned when there is an error in your body or other request elements
-* **403**: Forbidden, this code is returned when you are not allowed to call a resource (see :ref:`authentication`)
-* **404**: Not found, in the context of an API, it often means the resource (or method) called does not exist
+========= ============ =========================================================
+Code      Error        Description
+========= ============ =========================================================
+``400``   Bad Request  this code is mainly returned when there is an error
+                       in your body or other request elements
+
+``403``   Forbidden    this code is returned when you are not allowed to
+                       call a resource (see :ref:`authentication`)
+
+``404``   Not Found    in the context of an API, it often means the
+                       resource (or method) called does not exist
+========= ============ =========================================================
 
 Additionally, you will get a JSON response with more details about the error, allowing
 a human or a program to process and log the errors.
@@ -190,24 +260,36 @@ and you will be good.
 As you have seen in the "first ten domains" example, you can send only the parameters you want.
 The available parameters are:
 
-* **nameContains**: a filter on the name of the domains
-* **limit**: the number of domains you want to retrieve
-* **offset**: skip some domains
-* **reverse**: reverse order of the domains
+======================= ==================== ===================================
+Param name              Type                 Description
+======================= ==================== ===================================
+``nameContains``        string               a filter on the name of the domains
 
-Campaigns
----------
+*Pagination params*
+--------------------------------------------------------------------------------
+
+``limit``               integer              the number of domains you want to
+                                             retrieve
+
+``offset``              integer              starting point to skip some domains
+
+``reverse``             boolean              reverse order of the domains
+                                             (alphabetical)
+======================= ==================== ===================================
 
 Campaign creation
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Overview
-""""""""
+~~~~~~~~
+
+Create a campaign
+"""""""""""""""""
 
 The first step is to create an empty spooler representing the campaign on a specific
 domain.
 
-Send the content
+Send the body
 
 .. code-block:: json
 
@@ -242,6 +324,9 @@ use to perform every other calls on the *spooler* resource.
   Every call to a *spooler* method will return this complete representation of the
   given spooler.
 
+Set the name of the campaign
+""""""""""""""""""""""""""""
+
 Let's add some more information on your spooler. First set the name with:
 
 .. code-block:: json
@@ -260,6 +345,9 @@ on::
   By following some convention of your own, you will be able to get what you want
   easily.
 
+Set the start date
+""""""""""""""""""
+
 Then a start date with:
 
 .. code-block:: json
@@ -277,6 +365,9 @@ on::
   with the */spooler/<current-spooler-token>/ready* method will send the campaign
   immediately while you can program your campaign to start at a specific date in
   the future (do not forget to activate your campaign still, more on that later).
+
+Add your message
+""""""""""""""""
 
 The next step is to define the content of this campaign. We do that by creating a
 *message* for which we specify several elements: the sender, the subject line, the
@@ -343,6 +434,9 @@ that you can send on the *spooler* *message* method::
 
   POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/message
 
+Add some recipients
+"""""""""""""""""""
+
 The spooler is now configured and the content is set. We have to add recipients.
 We create a mail with the recipient's email address and we add this mail to the spooler.
 We say we "spool" a mail to the spooler.
@@ -375,17 +469,30 @@ Just send this body to the right *spool* method::
 
 and your recipients are set.
 
+Send the campaign
+"""""""""""""""""
+
 The last step (yes you are almost done!) is to flag the spooler as ready to be
-send. The Octosend system will trigger the launch of the campaign at the given start
+send.
+
+.. note::
+  Note that before this final step that lock the campaign and set it as ready,
+  you can test your work at any time. It allows you to check how your message render
+  on several email clients, to check the validity of the links or to get the validation
+  for the final shoot. See :ref:`campaigns-testing` for more information.
+
+The Octosend system will trigger the launch of the campaign at the given start
 date::
 
   POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/ready
 
 .. warning::
-  After this call the campaign can not be modified anymore.
+  After this call the campaign can not be modified anymore. Do not forget
+  :ref:`campaigns-testing`
+
 
 Tracking variables
-""""""""""""""""""
+~~~~~~~~~~~~~~~~~~
 
 The content of the message can embed tracking variables that will be dynamically
 replaced (interpolated) when the mails will be formatted.
@@ -437,7 +544,7 @@ unsubscribe page.
   }
 
 Customization variables
-"""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~
 
 You can also create your own variables to customize the content of a message. The
 syntax is the same as for the tracking variables.
@@ -496,6 +603,60 @@ when you create and spool the recipients email address:
     ]
   }
 
+.. _campaigns-testing:
+
+Test your campaigns
+~~~~~~~~~~~~~~~~~~~
+
+Depending on your workflow, there is good chances you want to test how your
+campaigns render before to seal your fate and send your message to all your
+targeted recipients.
+
+Octosend provides an easy way to do it with a special method you can call at any
+time while editing your campaign (as long as you did not flag your campaign as
+ready).
+
+You can do it by calling::
+
+  POST https://api.octosend.com/api/3.0/spooler/<current-spooler-token>/draft
+
+with the list of test emails on which you want to send the current version of your
+message:
+
+.. code-block:: json
+
+  {
+    "mails": [
+      {
+        "email": "head@peanuts.tld",
+        "variables": {
+          "firstname": "Charlie",
+          "lastname": "Brown"
+        }
+      },
+      {
+        "email": "head-of-marketing@peanuts.tld"
+        "variables": {
+          "firstname": "Pal",
+          "lastname": "Patine"
+        }
+      }
+    ]
+  }
+
+The method works exactly as the *spool* method except that the emails are sent
+immediately.
+
+.. warning::
+  The test feature is only available to validate a campaign and make it "good for
+  shooting". Therefore the is strong limitations on what you can do ... or not.
+  For instance, you are limited to 10 emails per draft method call.
+
+
+
+Campaigns retrieval
+-------------------
+
 Retrieve a campaign
 ~~~~~~~~~~~~~~~~~~~
 
@@ -519,11 +680,8 @@ That will return the classic JSON representation of your campaign:
     "type": "marketing"
   }
 
-Campaigns list
-~~~~~~~~~~~~~~
-
 List the first ten campaigns
-""""""""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Body parameters
 
@@ -556,7 +714,7 @@ will return a JSON array with matching *spoolers* as objects with a spoolers pro
   ]
 
 Filtering
-"""""""""
+~~~~~~~~~
 
 The example shows how to retrieve the first ten *new* *marketing* campaigns from the domain *my.domain.tld*
 containing *"promotion"* in their names:
@@ -588,27 +746,58 @@ containing *"promotion"* in their names:
 While this body provides the full list of parameters for the example, you can off course,
 send only the parameters you want. The available parameters are:
 
-* **Pagination** params
+======================= ==================== ===================================
+Param name              Type                 Description
+======================= ==================== ===================================
+*Spoolers properties*
+--------------------------------------------------------------------------------
 
-  * **limit**: the number of spoolers you want to retrieve
-  * **offset**: skip some spoolers
-  * **reverse**: reverse order of the spoolers
+``nameContains``        string               a filter on the name of the spoolers
 
-* **Date** filtering params
+``domains``             strings array        an array of exact domains names
 
-  * **createdBefore**: max timestamp boundaries on the creation date
-  * **createdAfter**: min timestamp boundaries on the creation date
-  * **startBefore**: max timestamp boundaries on the start date
-  * **startAfter**: min timestamp boundaries on the start date
-  * **endBefore**: max timestamp boundaries on the end date
-  * **endAfter**: min timestamp boundaries on the end date
+``states``              strings array        an array of spoolers status. The
+                                             currently available states are
+                                             *"new"*, *"pending"*, *"running"*,
+                                             *"cancelled"*, *"finished"*
 
-* **Spoolers Properties** filtering params
+``types``               strings array        an array of types you are searching
+                                             for. The currently available types
+                                             are *"marketing"* or *"transactional"*
 
-  * **nameContains**: a filter on the name of the spooler
-  * **domains**: an array of exact domains names
-  * **states**: an array of spoolers status. The currently available states are *"new"*, *"pending"*, *"running"*, *"cancelled"*, *"finished"*
-  * **types**: an array of types you search for. The currently available types are *"marketing"* or *"transactional"*
+*Pagination params*
+--------------------------------------------------------------------------------
+
+``limit``               integer              the number of spoolers you want to
+                                             retrieve
+
+``offset``              integer              starting point to skip some spoolers
+
+``reverse``             boolean              reverse order of the spoolers
+                                             (creation date)
+
+*Date params*
+--------------------------------------------------------------------------------
+
+``createdBefore``       integer (timestamp)  max timestamp boundaries on the
+                                             creation date
+
+``createdAfter``        integer (timestamp)  min timestamp boundaries on the
+                                             creation date
+
+``startBefore``         integer (timestamp)  max timestamp boundaries on the
+                                             start date
+
+``startAfter``          integer (timestamp)  min timestamp boundaries on the
+                                             start date
+
+``endBefore``           integer (timestamp)  max timestamp boundaries on the
+                                             end date
+
+``endAfter``            integer (timestamp)  min timestamp boundaries on the
+                                             end date
+
+======================= ==================== ===================================
 
 Statistic and results
 ---------------------
