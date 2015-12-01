@@ -18,7 +18,7 @@ More on that in the readthedocs [getting started](http://read-the-docs.readthedo
 
 ## Local build
 
-While this documentation is available online at http://docs.octosend.org, for contributing purpose, you may want to clone and build it localy. Here are the steps to follow to do it.
+While this documentation is available online at http://docs.octosend.com, for contributing purpose, you may want to clone and build it localy. Here are the steps to follow to do it.
 
 First, you need to add the dependencies to build the documentation properly. You have to install sphinx and sphinx-rtd-theme:
 
