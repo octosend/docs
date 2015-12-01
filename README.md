@@ -4,11 +4,11 @@
 
 ## Overview
 
-OctoSend provides a mailing campaign service. The user can use one or many sending domains and is able to create campaigns, follow their evolutions and retrieve statistics.
+Octosend provides a mailing campaign service. The user can use one or many sending domains and is able to create campaigns, follow their evolutions and retrieve statistics.
 
 ## Description
 
-This is the repository of the english documentation OctoSend https://octosend.com/. It hosts the reference documentation that will be maintained and augmented regularly with the new features documentation provided on each release of the OctoSend product.
+This is the repository of the english documentation Octosend https://octosend.com/. It hosts the reference documentation that will be maintained and augmented regularly with the new features documentation provided on each release of the Octosend product.
 
 ## Environment
 
@@ -18,7 +18,7 @@ More on that in the readthedocs [getting started](http://read-the-docs.readthedo
 
 ## Local build
 
-While this documentation is available online at http://octosend.readthedocs.org, for contributing purpose, you may want to clone and build it localy. Here are the steps to follow to do it.
+While this documentation is available online at http://docs.octosend.org, for contributing purpose, you may want to clone and build it localy. Here are the steps to follow to do it.
 
 First, you need to add the dependencies to build the documentation properly. You have to install sphinx and sphinx-rtd-theme:
 
