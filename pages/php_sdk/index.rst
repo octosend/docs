@@ -129,14 +129,11 @@ the string "demo." in the name of the domain
     print_r($domain->name());
   }
 
-Campaigns
----------
-
 Campaign creation
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Overview
-""""""""
+~~~~~~~~
 
 The first step is to choose the sending domain of the campaign. We directly retrieve
 the domain object by the domain name.
@@ -145,6 +142,9 @@ the domain object by the domain name.
 
    // retrieve a connector to a specific domain
    $domain = $client->domain('demo.octosend.com');
+
+Create a campaign
+"""""""""""""""""
 
 Then we create a spooler object representing the campaign and we give it a name and
 a start date.
@@ -167,6 +167,9 @@ the campaign later.
 
    $token = $spooler->token();
    print_r($token);
+
+Set the content
+"""""""""""""""
 
 The next step is to define the content of this campaign. We do that by creating a
 message object for the spooler for which we specify several elements: the sender,
@@ -201,6 +204,9 @@ Once finished the message must be saved in the spooler.
   providers while checking for spams and may hurt your deliverability if not set
   with an appropriate content related to you HTML one!
 
+Add recipients
+""""""""""""""
+
 The spooler is now configured and the content is set. We have to add recipients.
 We create a mail with the recipient's email address and we add this mail to the spooler.
 We say we "spool" a mail to the spooler.
@@ -208,6 +214,11 @@ We say we "spool" a mail to the spooler.
 .. code-block:: php
 
   $spooler->mail('octopus@deepsea.tld')->spool();
+
+.. _batch-recipients:
+
+Batch add recipients
+""""""""""""""""""""
 
 To optimize the number of calls to the API, it is always a good idea to batch add
 recipients. This is pretty simple but requires to create a batch object, to add the
@@ -224,19 +235,74 @@ recipients to this batch object and then this object is spooled with only one ca
 
    $batch->spool();
 
+Send the campaign
+"""""""""""""""""
+
 The last step (yes you are almost done!) is to flag the spooler as ready to be
 send. The Octosend system will trigger the launch of the campaign at the given start
 date.
+
+.. note::
+  Note that before this final step that lock the campaign and set it as ready,
+  you can test your work at any time. It allows you to check how your message render
+  on several email clients, to check the validity of the links or to get the validation
+  for the final shoot. See :ref:`campaigns-testing` for more information.
 
 .. code-block:: php
 
    $spooler->ready();
 
 .. warning::
-  After this call the campaign can not be modified anymore.
+ After this call the campaign can not be modified anymore. Do not forget
+ :ref:`campaigns-testing`
+
+
+.. _campaigns-testing:
+
+Test your campaigns
+~~~~~~~~~~~~~~~~~~~
+
+Depending on your workflow, there is good chances you want to test how your
+campaigns render before to seal your fate and send your message to all your
+targeted recipients.
+
+Octosend provides an easy way to do it with a special method you can call at any
+time while editing your campaign (as long as you did not flag your campaign as
+ready).
+
+You can test on every email created on a spooler with its `draft` method:
+
+.. code-block:: php
+
+  $spooler->mail('octopus@deepsea.tld')->draft();
+
+In the same way you spooled several email previous in :ref:`batch-recipients`,
+you can test on several emails in one call, which is highly recommended.
+
+.. code-block:: php
+
+  $batch = $spooler->batch();
+
+  $batch->mail('snoopy@peanuts.tld');
+  $batch->mail('charlie.brown@peanuts.tld');
+  $batch->mail('woodstock@peanuts.tld');
+  $batch->mail('flash@starlabs.tld');
+
+  $batch->draft();
+
+As you can see `spool` and `draft` methods are pretty close. The huge difference
+is the goal of each method and so how email are sent. `draft` send immediately
+when the call is performed to a limited number of recipient during the campaign
+creation. `spool` on its side only send email to the recipients when `ready` is
+called on a spooler and at the start date set.
+
+.. warning::
+  The test feature is only available to validate a campaign and make it "good for
+  shooting". Therefore the is strong limitations on what you can do ... or not.
+  For instance, you are limited to 10 emails per draft method call.
 
 Tracking variables
-""""""""""""""""""
+~~~~~~~~~~~~~~~~~~
 
 The content of the message can embed tracking variables that will be dynamically
 replaced (interpolated) when the mails will be formatted.
@@ -290,7 +356,7 @@ unsubscribe page.
   );
 
 Customization variables
-"""""""""""""""""""""""
+~~~~~~~~~~~~~~~~~~~~~~~
 
 You can also create your own variables to customize the content of a message. The
 syntax is the same as for the tracking variables.
@@ -344,6 +410,10 @@ when you create and spool the recipients email address:
   ]);
 
   $batch->spool();
+
+
+Campaigns retrieval
+-------------------
 
 Retrieve a campaign
 ~~~~~~~~~~~~~~~~~~~
