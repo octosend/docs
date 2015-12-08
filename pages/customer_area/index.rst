@@ -1,7 +1,7 @@
 Customer Area Guide
 ==================
 
-..include:: links.rst
+.. include:: links.rst
 
 Introduction
 ------------
