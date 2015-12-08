@@ -412,6 +412,63 @@ when you create and spool the recipients email address:
   $batch->spool();
 
 
+Attachments
+~~~~~~~~~~~
+
+If you want to email invoices, payment receipts or other attachments meaningful
+for your clients, you can add those as part of the message for each email.
+
+.. note::
+  In theory, you can send the same attachments to all you recipients through the
+  spooler global message, but in most of the case, it will be a bad practice as
+  design and other images used in the email should not be embedded as attachments
+  but preferably hosted online.
+
+First you create your mail with the spooler or with the batch spooler depending
+on the way you manage your recipient (let us remind that batch is the preferred
+way to do it). Then you get the message associated to this mail and finally the
+parts of this message to add the attachment part as raw content of you file.
+
+.. warning::
+  Attachments are limited is size, type and context. First the attachments does not
+  make sense for marketing campaigns and so are limited to **transactional emails**.
+  Then the max size of the attachment is **2Mo**, so we encourage you to keep your
+  files small (nobody wants to receive a huge file in its inbox, except from
+  friends maybe...). Finally, only the **following types** are allowed: *application/pdf*,
+  *application/json*, *image/jpeg*, *text/plain*, *text/html*. If it is a problem
+  for you, do not hesitate to contact us to tell us about your needs.
+
+.. code-block:: php
+
+  $mail = $batch->mail('charlie.brown@peanuts.tld');
+  // or $spooler->mail('charlie.brown@peanuts.tld');
+
+  $message = $mail->message();
+  $message->parts()->attachment(
+      'application/pdf',
+      file_get_contents('202001_charlie-brown_invoice.pdf'),
+      'invoice.pdf'
+  );
+
+  $mail = $batch->mail('flash@starlabs.tld');
+  $message = $mail->message();
+  $message->parts()->attachment(
+      'application/pdf',
+      file_get_contents('202001_barry-allen_invoice.pdf'),
+      'invoice.pdf'
+  );
+
+.. danger::
+  If you get an exception while you think that everything is ok, first check the
+  type of your campaign: as said earlier, **attachments are forbidden on marketing
+  campaign**. Make sure your current spooler is *transactional*.
+
+.. tip::
+  This method will work as soon as you get a mail, so this is the case for spooler
+  mail creation and batch mail creation, but also in the context of draft and
+  campaign testing.
+
+
 Campaigns retrieval
 -------------------
 
