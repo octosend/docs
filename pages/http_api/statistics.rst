@@ -35,7 +35,6 @@ In "**activity**", you will find the following activity counters:
 
 * **open**: number of recipients that have opened the email
 * **click**: number of recipients that have clicked a link in the email
-* **mirror**: number of recipients that are gone to the online version
 
 In "**routing**", you will find the following routing counters:
 
