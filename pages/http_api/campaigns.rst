@@ -222,7 +222,6 @@ If needed, it allows to track the events occurring on the emails of this campaig
 Variables appear between double brackets in the contents and can be the following:
 
 * **unsubscribe**: an url allowing the recipients to unsubscribe from your list
-* **mirror**: an url allowing to see the content online
 * **click**: an url allowing to redirect the recipients to the given target url while tracking the link activation (click count)
 * **pixel**: an HTML tag allowing to track the opening of the emails by the recipients
 
@@ -238,7 +237,6 @@ with the variables in the content string
     "type": "text/html",
     "content": "<html>here my html content with
       a <a href='{{unsubscribe}}'>unsubscribe link</a>,
-      a <a href='{{mirror}}'>online version link</a>,
       a <a href='{{click:http://www.yourdomain.tld/you-page}}'>click tracking link</a>
       and finally a {{pixel}} to track the open
     </html>"
@@ -278,7 +276,6 @@ Content with tracking and customization:
     "type": "text/html",
     "content": "<html>here my html content with
       a <a href='{{unsubscribe}}'>unsubscribe link</a>,
-      a <a href='{{mirror}}'>online version link</a>,
       a <a href='{{click:http://www.yourdomain.tld/you-page}}'>click tracking link</a>
       and finally a {{pixel}} to track the open
       and some variables to finish
